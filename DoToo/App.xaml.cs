@@ -1,12 +1,13 @@
-﻿namespace DoToo
+﻿using DoToo.Views;
+
+namespace DoToo
 {
     public partial class App : Application
     {
-        public App()
+        public App(MainView mainView)
         {
             InitializeComponent();
-
-            MainPage = new AppShell();
+            MainPage = new NavigationPage(mainView);
         }
     }
 }
