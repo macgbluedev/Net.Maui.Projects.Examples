@@ -10,5 +10,8 @@ public partial class MainView : ContentPage
         InitializeComponent();
         viewModel.Navigation = Navigation;
         BindingContext = viewModel;
+
+        ItemsListView.ItemSelected += (s, e) 
+            => ItemsListView.SelectedItem = null;
     }
 }

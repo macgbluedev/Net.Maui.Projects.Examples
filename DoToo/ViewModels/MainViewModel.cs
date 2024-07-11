@@ -14,6 +14,18 @@ public partial class MainViewModel : ViewModel
     [ObservableProperty]
     ObservableCollection<TodoItemViewModel> items;
 
+    [ObservableProperty]
+    TodoItemViewModel selectedItem;
+    partial void OnSelectedItemChanging(TodoItemViewModel value)
+    {
+        if (value is null)
+            return;
+
+        MainThread.BeginInvokeOnMainThread(async () => {
+            await NavigateToItemAsync(value);
+        });
+    }
+
     public MainViewModel(ITodoItemRepository repository, IServiceProvider services)
     {
         repository.OnItemAdded += (sender, item) => items.Add(CreateTodoItemViewModel(item));
@@ -47,4 +59,14 @@ public partial class MainViewModel : ViewModel
     public async Task AddItemAsync()
         => await Navigation.PushAsync(services.GetRequiredService<ItemView>());
 
+    private async Task NavigateToItemAsync(TodoItemViewModel item)
+    {
+        var itemView = services.GetRequiredService<ItemView>();
+        var vm = itemView.BindingContext as ItemViewModel;
+
+        vm.Item = item.Item;
+        itemView.Title = "Edit todo item";
+
+        await Navigation.PushAsync(itemView);
+    }
 }
