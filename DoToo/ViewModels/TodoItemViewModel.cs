@@ -1,6 +1,7 @@
 ﻿namespace DoToo.ViewModels;
 
 using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using DoToo.Models;
 public partial class TodoItemViewModel : ViewModel
 {
@@ -10,4 +11,11 @@ public partial class TodoItemViewModel : ViewModel
     [ObservableProperty]
     TodoItem item;
     public string StatusText => Item.Completed ? "Reactivate" : "Completed";
+
+    [RelayCommand]
+    void ToggleCompleted()
+    {
+        Item.Completed = !Item.Completed;
+        ItemStatusChanged?.Invoke(this, new EventArgs());
+    }
 }
