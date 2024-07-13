@@ -3,3 +3,8 @@
 /DoToo/obj
 /DoToo/.vs
 
+# GalleryApp
+/GalleryApp/bin
+/GalleryApp/obj
+/GalleryApp/.vs
+
